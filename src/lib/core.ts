@@ -3,17 +3,10 @@ import { Fintoc, FintocWindow } from './types';
 
 export const findScript = (): HTMLScriptElement | null => {
   const scripts = document.querySelectorAll<HTMLScriptElement>(
-    `script[src^="${FINTOC_URL}"]`
+    `script[src^="${FINTOC_URL}"]`,
   );
 
-  for (let index = 0; index < scripts.length; index++) {
-    const script = scripts[index];
-
-    if (FINTOC_URL_REGEX.test(script.src)) {
-      return script;
-    }
-  }
-  return null;
+  return Array.from(scripts).find((script) => FINTOC_URL_REGEX.test(script.src)) || null;
 };
 
 export const injectScript = (): HTMLScriptElement => {
@@ -31,26 +24,24 @@ export const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
-export const getFintoc = (): Promise<Fintoc | null> => {
-  return new Promise((resolve) => {
-    if (typeof window === 'undefined') {
-      // Imports on server side will get a null
-      // Fintoc object instead of failing
-      resolve(null);
-      return;
-    }
+export const getFintoc = (): Promise<Fintoc | null> => new Promise((resolve) => {
+  if (typeof window === 'undefined') {
+    // Imports on server side will get a null
+    // Fintoc object instead of failing
+    resolve(null);
+    return;
+  }
 
-    const modifiedWindow = window as unknown as FintocWindow;
-    const script = findScript();
+  const modifiedWindow = window as unknown as FintocWindow;
+  let script = findScript();
 
-    if (!script) {
-      const script = injectScript();
+  if (!script) {
+    script = injectScript();
 
-      script.onload = function () {
-        resolve(modifiedWindow.Fintoc);
-      };
-    } else {
+    script.onload = () => {
       resolve(modifiedWindow.Fintoc);
-    }
-  });
-};
+    };
+  } else {
+    resolve(modifiedWindow.Fintoc);
+  }
+});
