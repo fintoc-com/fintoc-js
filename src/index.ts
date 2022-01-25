@@ -1,1 +1,1 @@
-export * from './lib/number';
+export { getFintoc } from './lib/core';
