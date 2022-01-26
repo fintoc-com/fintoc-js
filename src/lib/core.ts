@@ -1,5 +1,6 @@
+import { Fintoc } from '../types';
+
 import { FINTOC_URL, FINTOC_URL_REGEX } from './constants';
-import { Fintoc, FintocWindow } from './types';
 
 export const findScript = (): HTMLScriptElement | null => {
   const scripts = document.querySelectorAll<HTMLScriptElement>(
@@ -32,16 +33,15 @@ export const getFintoc = (): Promise<Fintoc | null> => new Promise((resolve) => 
     return;
   }
 
-  const modifiedWindow = window as unknown as FintocWindow;
   let script = findScript();
 
   if (!script) {
     script = injectScript();
 
     script.onload = () => {
-      resolve(modifiedWindow.Fintoc);
+      resolve(window.Fintoc);
     };
   } else {
-    resolve(modifiedWindow.Fintoc);
+    resolve(window.Fintoc);
   }
 });

@@ -1,15 +1,11 @@
 export type FintocOptions = Record<string, any>;
 
-export type FintocWidget = {
+export interface FintocWidget {
   open: () => void;
   close: () => void;
   destroy: () => void;
 }
 
-export type Fintoc = {
+export interface Fintoc {
   create: (options: FintocOptions) => FintocWidget;
-}
-
-export interface FintocWindow extends Window {
-  Fintoc: Fintoc;
 }
