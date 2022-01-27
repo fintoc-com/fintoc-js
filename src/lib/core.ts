@@ -25,6 +25,12 @@ export const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
+/**
+ * Gets the Fintoc object. If the Fintoc script isn't loaded,
+ * this method loads it before retunring the Fintoc object.
+ *
+ * @returns The {@link Fintoc} object
+ */
 export const getFintoc = (): Promise<Fintoc | null> => new Promise((resolve) => {
   if (typeof window === 'undefined') {
     // Imports on server side will get a null
