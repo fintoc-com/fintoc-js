@@ -21,6 +21,6 @@ SCRIPTS=$(cd $(dirname $0) && pwd)
 BASEDIR=$(dirname $SCRIPTS)
 
 # Commit changes into release branch
-git add $BASEDIR/package.json &&
+git add $BASEDIR/package.json $BASEDIR/package-lock.json &&
 git checkout -b release/prepare-$NEW_VERSION &&
 git commit --message "pre-release: prepare $NEW_VERSION release"
