@@ -11,10 +11,10 @@ if [ -z $1 ]; then
 fi
 
 # Get old version
-OLD_VERSION=$(yarn --silent version:get)
+OLD_VERSION=$(npm run --silent version:get)
 
 # Bump up package.json version and get new version
-npm version $1 --no-git-tag-version && NEW_VERSION=$(yarn --silent version:get)
+npm version $1 --no-git-tag-version && NEW_VERSION=$(npm run --silent version:get)
 
 # Get the scripts directory name and the base directory name
 SCRIPTS=$(cd $(dirname $0) && pwd)

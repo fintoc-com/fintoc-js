@@ -67,3 +67,26 @@ You can read more about these methods [here](https://docs.fintoc.com/docs/widget
 ## TypeScript support
 
 This package includes TypeScript declarations for the Fintoc widget.
+
+## Developing
+
+To develop the package, you need to use `npm`. Install the dependencies:
+
+```sh
+npm install
+```
+
+Build the library and watch for changes to the code:
+
+```sh
+npm run watch:build
+```
+
+If you want to create a new _release_, you can run:
+
+```sh
+git switch master
+npm run bump! <major|minor|patch>
+```
+
+This will create a new branch with the updated version from `master`.
