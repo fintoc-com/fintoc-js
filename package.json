@@ -54,5 +54,8 @@
     "!**/*.json",
     "LICENSE",
     "README.md"
-  ]
+  ],
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
 }
