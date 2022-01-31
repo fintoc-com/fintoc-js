@@ -28,7 +28,7 @@ npm install @fintoc/fintoc-js
 yarn add @fintoc/fintoc-js
 ```
 
-**Note:** This SDK requires [**Node 10+**](https://nodejs.org/en/blog/release/v10.0.0).
+**Note:** This library requires [**Node 10+**](https://nodejs.rg/en/blog/release/v10.0.0).
 
 ## Usage
 
@@ -43,11 +43,7 @@ const Fintoc = await getFintoc();
 After retrieving the `Fintoc` object, you are ready to instantiate the widget:
 
 ```js
-const options = {
-    .
-    .
-    .
-};
+const options = { ... };
 
 const widget = Fintoc.create(options);
 ```
@@ -90,3 +86,7 @@ npm run bump! <major|minor|patch>
 ```
 
 This will create a new branch with the updated version from `master`.
+
+## Acknowledgements
+
+The first _raw_ implementation of a chunk of code to load the Fintoc script was co-authored by [**@daleal**](https://github.com/daleal) and [**@naquiroz**](https://github.com/naquiroz), and served as a starting point for the general idea of this library.
