@@ -86,3 +86,7 @@ npm run bump! <major|minor|patch>
 ```
 
 This will create a new branch with the updated version from `master`.
+
+## Acknowledgements
+
+The first _raw_ implementation of a chunk of code to load the Fintoc script was co-authored by [**@daleal**](https://github.com/daleal) and [**@naquiroz**](https://github.com/naquiroz), and served as a starting point for the general idea of this library.
