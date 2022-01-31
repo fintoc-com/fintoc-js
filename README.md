@@ -43,11 +43,7 @@ const Fintoc = await getFintoc();
 After retrieving the `Fintoc` object, you are ready to instantiate the widget:
 
 ```js
-const options = {
-    .
-    .
-    .
-};
+const options = { ... };
 
 const widget = Fintoc.create(options);
 ```
