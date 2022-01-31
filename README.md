@@ -28,7 +28,7 @@ npm install @fintoc/fintoc-js
 yarn add @fintoc/fintoc-js
 ```
 
-**Note:** This SDK requires [**Node 10+**](https://nodejs.org/en/blog/release/v10.0.0).
+**Note:** This library requires [**Node 10+**](https://nodejs.rg/en/blog/release/v10.0.0).
 
 ## Usage
 
