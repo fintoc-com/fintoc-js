@@ -25,7 +25,6 @@ export const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
-
 let fintocPromise: Promise<Fintoc | null> | null = null;
 
 /**
@@ -72,7 +71,6 @@ export const getFintoc = (): Promise<Fintoc | null> => {
       });
     } catch (error) {
       reject(error);
-      return;
     }
   });
 
