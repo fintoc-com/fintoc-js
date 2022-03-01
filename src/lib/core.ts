@@ -25,32 +25,54 @@ export const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
+let fintocPromise: Promise<Fintoc | null> | null = null;
+
 /**
  * Gets the Fintoc object. If the Fintoc script isn't loaded,
  * this method loads it before retunring the Fintoc object.
  *
  * @returns The {@link Fintoc} object
  */
-export const getFintoc = (): Promise<Fintoc | null> => new Promise((resolve) => {
-  if (typeof window === 'undefined') {
-    // Imports on server side will get a null
-    // Fintoc object instead of failing
-    resolve(null);
-    return;
+export const getFintoc = (): Promise<Fintoc | null> => {
+  if (fintocPromise !== null) {
+    return fintocPromise;
   }
 
-  if (window.Fintoc) {
-    resolve(window.Fintoc);
-    return;
-  }
+  fintocPromise = new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      // Imports on server side will get a null
+      // Fintoc object instead of failing
+      resolve(null);
+      return;
+    }
 
-  let script = findScript();
+    if (window.Fintoc) {
+      resolve(window.Fintoc);
+      return;
+    }
 
-  if (!script) {
-    script = injectScript();
-  }
+    try {
+      let script = findScript();
 
-  script.onload = () => {
-    resolve(window.Fintoc);
-  };
-});
+      if (!script) {
+        script = injectScript();
+      }
+
+      script.addEventListener('load', () => {
+        if (window.Fintoc) {
+          resolve(window.Fintoc);
+        } else {
+          reject(new Error('Fintoc.js is not available'));
+        }
+      });
+
+      script.addEventListener('error', () => {
+        reject(new Error('Failed to load Fintoc.js'));
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+  return fintocPromise;
+};
