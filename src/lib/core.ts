@@ -39,15 +39,18 @@ export const getFintoc = (): Promise<Fintoc | null> => new Promise((resolve) => 
     return;
   }
 
+  if (window.Fintoc) {
+    resolve(window.Fintoc);
+    return;
+  }
+
   let script = findScript();
 
   if (!script) {
     script = injectScript();
-
-    script.onload = () => {
-      resolve(window.Fintoc);
-    };
-  } else {
-    resolve(window.Fintoc);
   }
+
+  script.onload = () => {
+    resolve(window.Fintoc);
+  };
 });
