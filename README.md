@@ -60,6 +60,10 @@ widget.destroy();
 
 You can read more about these methods [here](https://docs.fintoc.com/docs/widget-web-integration#methods-of-the-widget-object).
 
+### Getting a `null` widget
+
+For `Fintoc.js` not to break when using server side rendering, if the `window` object is of type `undefined` (in the server side), the `getFintoc` promise will resolve to `null`. **You should only use this method in the client**, as the server side usage of `getFintoc` will result in a `null` widget.
+
 ## TypeScript support
 
 This package includes TypeScript declarations for the Fintoc widget.
