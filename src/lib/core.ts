@@ -25,7 +25,18 @@ export const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
+const findScriptBehindShim = (): HTMLScriptElement | null => {
+  const scripts = document.getElementsByTagName('script');
+  return Array.from(scripts).find((script) => script.src.includes('wizard-script')) || null;
+};
+
 let fintocPromise: Promise<Fintoc | null> | null = null;
+
+export const checkIfFintocIsAvailable = (resolve: any): void => {
+  if (window.Fintoc) {
+    resolve(window.Fintoc);
+  }
+};
 
 /**
  * Gets the Fintoc object. If the Fintoc script isn't loaded,
@@ -52,23 +63,27 @@ export const getFintoc = (): Promise<Fintoc | null> => {
     }
 
     try {
-      let script = findScript();
-
-      if (!script) {
-        script = injectScript();
-      }
-
+      const script = findScript() || injectScript();
       script.addEventListener('load', () => {
-        if (window.Fintoc) {
-          resolve(window.Fintoc);
-        } else {
-          reject(new Error('Fintoc.js is not available'));
-        }
+        checkIfFintocIsAvailable(resolve);
       });
-
       script.addEventListener('error', () => {
         reject(new Error('Failed to load Fintoc.js'));
       });
+      if (!window.Fintoc) {
+        script.addEventListener('load', () => {
+          const scriptBehindShim = findScriptBehindShim();
+          scriptBehindShim?.addEventListener('load', () => {
+            checkIfFintocIsAvailable(resolve);
+            if (!window.Fintoc) {
+              reject(new Error('Fintoc.js is not available'));
+            }
+          });
+          scriptBehindShim?.addEventListener('error', () => {
+            reject(new Error('Failed to load Fintoc.js'));
+          });
+        });
+      }
     } catch (error) {
       reject(error);
     }
